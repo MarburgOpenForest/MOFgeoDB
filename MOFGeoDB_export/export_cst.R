@@ -2,22 +2,22 @@
 
 library(RSQLite)
 
-setwd("..")
+#setwd("..")
 
 # establish database connection
-MOFGeoDB <- dbConnect(SQLite(), "MOFGeoDB.sqlite")
+MOFGeoDB <- dbConnect(SQLite(), "../MOFGeoDB.sqlite")
 
 # select the trees table
-trees <- dbReadTable(MOFGeoDB, "trees")
+trees <- dbReadTable(MOFGeoDB, "tree")
 
 
 
 # export cst trees with the right columns
-cst <- trees[substr(trees$tree_name, 1,7) == "mof_cst",
-             c("tree_name", "easting", "northing", "species")]
+cst <- trees[substr(trees$treeID, 1,7) == "mof_cst",
+             c("treeID", "easting", "northing", "specID")]
 
 # write into the csv folder
-write.csv(cst, "csv/mof_cst.csv", row.names = FALSE)
+write.csv(cst, "../csv/mof_cst.csv", row.names = FALSE)
 
 # create GeoPackage file
 
@@ -30,4 +30,4 @@ sp::proj4string(cst) <- sp::CRS("+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,
 layer_name <- "mof_cst"
 
 # write GeoPackage file
-rgdal::writeOGR(cst, dsn = paste0("gpkg/", layer_name, ".gpkg"), layer = layer_name, driver = "GPKG", overwrite = TRUE)
+rgdal::writeOGR(cst, dsn = paste0("../gpkg/", layer_name, ".gpkg"), layer = layer_name, driver = "GPKG", overwrite = TRUE)
