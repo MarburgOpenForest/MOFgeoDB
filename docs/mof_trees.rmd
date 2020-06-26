@@ -1,0 +1,79 @@
+---
+title: "Marburg Open Forest trees"
+output:
+  flexdashboard::flex_dashboard:
+    orientation: rows
+    vertical_layout: scroll
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(RSQLite)
+library(sf)
+library(mapview)
+library(flexdashboard)
+library(gt)
+```
+
+
+```{r}
+# load trees and look up tables
+trees <- st_read("../MOFgeoDB.sqlite", quiet = T, layer = "vw_tree_living") %>%
+  filter(species_id %in% c(2357, 4680))
+
+con = dbConnect(RSQLite::SQLite(),"../MOFgeoDB.sqlite")
+lut_species <- dbReadTable(con, "lut_tree_species") %>%
+  select(species_id, species_code)
+dbDisconnect(con)
+
+```
+
+
+```{r}
+# join
+trees = merge(trees, lut_species, by = "species_id")
+```
+
+
+
+
+Row {data-height=650}
+-------------------------------------
+
+###
+
+```{r}
+trees %>% 
+  mapview(
+    map.types = "OpenStreetMap", 
+    zcol = "species_code",
+    color = "grey20",
+    lwd = 1,
+    label = trees$tree_id,
+    layer.name = "Oaks and Beeches",
+    cex = "dbh")
+```
+
+
+###
+
+```{r}
+#filter zones with most overcrowded population
+trees %>%
+  select(tree_id, species_code, dbh, height) %>%
+  st_drop_geometry() %>%
+  top_n(10, dbh) %>%
+  arrange(desc(dbh)) %>%
+  gt() %>%
+  tab_header(title = "Top 10 thickest trees") %>%
+  cols_label(tree_id = "Tree", species_code = "Species", dbh = "DBH [m]")
+```
+
+Row
+-------------------------------------
+
+### Source Notes
+
+Data from the MOFgeoDB
+
+Code at https://github.com/Nature40/MOFGeoDB
