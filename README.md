@@ -1,15 +1,22 @@
 # MOFGeoDB
 Database for MarburgOpenForest related Data
 
-The MOFGeoDB.sqlite file contains all tables, geometries and information collected since summer 2016 by various courses and projects in the Marburg Open Forest.
+
+
+# Installation
+
+Download the whole repositiory or
+
+```
+git clone https://github.com/Nature40/MOFGeoDB.git
+```
 
 # Usage
-Clone or download the repository on your local machine. The MOFGeoDB.sqlite and MOFGeoDB.qgz files need to be in the same directroy in order to work properly.
 
 MOFGeoDB.qgz can be opend in QGIS 3.X.X (https://www.qgis.org/de/site/). The database is already linked in the project and is ready to use.
+The MOFGeoDB.sqlite file contains all tables, geometries and information collected since summer 2016 by various courses and projects in the Marburg Open Forest.
 
-Usage in R is currenty possible with the RSQlite-Package. More tutorials, wrappers and conveniance functions are planed.
-
+Usage in R is possible with the RSQlite-Package.
 ```
 install.packages("RSQlite")
 library(RSQlite)
@@ -18,6 +25,23 @@ library(RSQlite)
 MOFGeoDB <- dbConnect(SQLite(), "PATH / MOFGeoDB.sqlite")
 
 ```
+Spatial layers can be direcly accessed with `sf`.
+
+```
+install.packages(sf)
+install.packages(mapview)
+library(sf)
+library(mapview)
+
+# show all available spatial layers
+st_layers("PATH / MOFGeoDB.sqlite")
+
+# load one specific layer
+trees = st_read("PATH / MOFGeoDB.sqlite", layer = "vw_tree_living")
+mapview(trees)
+
+```
+
 
 **_Big thanks to Dietrich Goettlicher!_**
 
