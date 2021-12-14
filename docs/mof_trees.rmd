@@ -76,4 +76,4 @@ Row
 
 Data from the MOFgeoDB
 
-Code at https://github.com/Nature40/MOFGeoDB
+Code at https://github.com/MOF/MOFgeoDB
