@@ -13,7 +13,7 @@ git clone https://github.com/MOF/MOFgeoDB.git
 
 # Usage
 
-MOFgeoDB.qgz can be opend in [QGIS 3.X] (https://www.qgis.org/). The database is already linked in the project and is ready to use.
+MOFgeoDB.qgz can be opend in [QGIS 3.X](https://www.qgis.org/). The database is already linked in the project and is ready to use.
 The MOFgeoDB.sqlite file contains all tables, geometries and information collected since summer 2016 by various courses and projects in the Marburg Open Forest.
 
 Usage in R is possible with the RSQlite-Package.
