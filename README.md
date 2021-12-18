@@ -42,3 +42,5 @@ mapview(trees)
 
 ```
 
+# Information
+More information and a description of the database can be found under https://marburgopenforest.github.io/MOFexplain/.
